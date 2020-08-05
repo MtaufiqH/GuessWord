@@ -23,9 +23,7 @@ class TitleFragment : Fragment() {
             inflater,
             R.layout.fragment_title,
             container,
-            false
-        )
-
+            false)
 
         binding.buttonPlay.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleFragmentToGameFragment())

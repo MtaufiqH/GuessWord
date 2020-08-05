@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import app.taufiq.guessword.R
 import app.taufiq.guessword.databinding.FragmentTitleBinding
 
@@ -24,6 +25,11 @@ class TitleFragment : Fragment() {
             container,
             false
         )
+
+
+        binding.buttonPlay.setOnClickListener {
+            findNavController().navigate(TitleFragmentDirections.actionTitleFragmentToGameFragment())
+        }
 
         return binding.root
     }

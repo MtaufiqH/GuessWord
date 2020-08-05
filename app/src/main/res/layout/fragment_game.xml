@@ -73,7 +73,7 @@
             tools:text="Score: 2" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonSkip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -84,18 +84,18 @@
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/buttonGotIt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/got_it"
             android:theme="@style/GoButton"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
-            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@+id/buttonEndGame"
+            app:layout_constraintStart_toEndOf="@+id/buttonSkip"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/buttonEndGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

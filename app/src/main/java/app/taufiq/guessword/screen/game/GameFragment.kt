@@ -39,12 +39,13 @@ class GameFragment : Fragment() {
         binding.buttonGotIt.setOnClickListener { onCorrect() }
         binding.buttonEndGame.setOnClickListener { onEndGame() }
 
+
         /** Setting up LiveData observation relationship **/
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+        viewModel._score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
 
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+        viewModel._word.observe(viewLifecycleOwner, Observer { newWord ->
             binding.wordText.text = newWord
 
         })
@@ -56,7 +57,6 @@ class GameFragment : Fragment() {
     // method for buttons preset
     private fun onSkip() {
         viewModel.onSkip()
-
     }
 
     private fun onCorrect() {
@@ -73,11 +73,18 @@ class GameFragment : Fragment() {
         Toast.makeText(activity, "Game has just finished", Toast.LENGTH_SHORT).show()
         val action =
             GameFragmentDirections.actionGameFragmentToScoreFragment()
-        action.score = viewModel.score.value ?: 0
+        action.score = viewModel._score.value ?: 0
         NavHostFragment.findNavController(this).navigate(action)
     }
 
 
+ /*   private fun updateScore() {
+        binding.scoreText.text = viewModel.score.value.toString()
+    }
+
+    private fun updateWord() {
+        binding.wordText.text = viewModel.word.value
+    }*/
 
 
 }

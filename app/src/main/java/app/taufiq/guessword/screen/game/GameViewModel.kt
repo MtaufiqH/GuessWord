@@ -1,5 +1,6 @@
 package app.taufiq.guessword.screen.game
 
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModel
  *
  */
 class GameViewModel : ViewModel() {
+
 
     // current word
     private val word = MutableLiveData<String>()
@@ -27,6 +29,16 @@ class GameViewModel : ViewModel() {
     val _eventGameFinished: LiveData<Boolean>
         get() = eventGameFinished
 
+    // timer
+    private val timer: CountDownTimer
+
+
+    // countdown time
+    private val currentTime = MutableLiveData<Long>()
+    val _currentTime: LiveData<Long>
+        get() = currentTime
+
+
 
     // the list of word - the front of the list is the next word  to guess
     lateinit var listOfWord: MutableList<String>
@@ -37,6 +49,22 @@ class GameViewModel : ViewModel() {
 
         word.value = ""
         score.value = 0
+
+
+        // Creates a timer which triggers the end of the game when it finishes
+        timer = object: CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
+            override fun onFinish() {
+                currentTime.value = DONE
+                onGameFinish()
+
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                currentTime.value = millisUntilFinished/ ONE_SECOND
+            }
+        }
+
+        timer.start()
 
     }
 
@@ -56,7 +84,9 @@ class GameViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        Log.i("GameViewModel", "GameViewModel destroyed!")
+
+        timer.cancel()
+
     }
 
 
@@ -96,7 +126,8 @@ class GameViewModel : ViewModel() {
             // select and remove a word from the list
             word.value = listOfWord.removeAt(0)
         } else {
-            onGameFinish()
+            // shuffle the word list.
+            resetLists()
         }
     }
 
@@ -110,6 +141,21 @@ class GameViewModel : ViewModel() {
 
     fun onGameFinishComplete() {
         eventGameFinished.value = false
+    }
+
+
+    // logic for timer
+    companion object {
+        // time when the game is over
+        private const val DONE = 0L
+
+        // countdown time interval
+        private const val ONE_SECOND = 1_000L // 1 second
+
+        // total timer of the game
+        private const val COUNTDOWN_TIME = 60_000L // 60 Second
+
+
     }
 
 

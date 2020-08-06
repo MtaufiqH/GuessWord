@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <data>
+
+        <variable
+            name="gameViewModel"
+            type="app.taufiq.guessword.screen.game.GameViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,11 +57,11 @@
             android:id="@+id/timerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/grey_text_color"
             android:textSize="14sp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/scoreText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,10 +71,10 @@
             android:id="@+id/scoreText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/grey_text_color"
-            android:textSize="14sp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:textColor="@color/grey_text_color"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:onClick="@{()-> gameViewModel.onSkip()}"
             android:text="@string/skip"
             android:theme="@style/SkipButton"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,6 +96,7 @@
             android:id="@+id/buttonGotIt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{()->gameViewModel.onCorrect()}"
             android:text="@string/got_it"
             android:theme="@style/GoButton"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -99,6 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:onClick="@{()-> gameViewModel.onGameFinish()}"
             android:text="@string/end_game"
             android:theme="@style/SkipButton"
             app:layout_constraintBottom_toBottomOf="parent"

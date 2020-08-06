@@ -35,9 +35,10 @@ class GameFragment : Fragment() {
         // Initialize viewModel
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        binding.buttonSkip.setOnClickListener { onSkip() }
-        binding.buttonGotIt.setOnClickListener { onCorrect() }
-        binding.buttonEndGame.setOnClickListener { onEndGame() }
+
+        // Set the viewmodel for databinding - this allows the bound layout access
+        // to all the data in the ViewModel
+        binding.gameViewModel = viewModel
 
 
         /** Setting up LiveData observation relationship **/
@@ -53,7 +54,7 @@ class GameFragment : Fragment() {
         })
 
         // observer for the game Finish
-        viewModel._eventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> {hasFinished ->
+        viewModel._eventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
             if (hasFinished) onGameFinished()
         })
 
@@ -62,20 +63,6 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
-
-    // method for buttons preset
-    private fun onSkip() {
-        viewModel.onSkip()
-    }
-
-    private fun onCorrect() {
-        viewModel.onCorrect()
-    }
-
-
-    private fun onEndGame() {
-        onGameFinished()
-    }
 
 
     private fun onGameFinished() {
@@ -86,15 +73,6 @@ class GameFragment : Fragment() {
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.onGameFinishComplete()
     }
-
-
- /*   private fun updateScore() {
-        binding.scoreText.text = viewModel.score.value.toString()
-    }
-
-    private fun updateWord() {
-        binding.wordText.text = viewModel.word.value
-    }*/
 
 
 }

@@ -80,7 +80,7 @@ class GameViewModel : ViewModel() {
     * Method for the next word
     * */
     private fun nextWord() {
-        if (!listOfWord.isEmpty()) {
+        if (listOfWord.isNotEmpty()) {
             // select and remove a word from the list
             word.value = listOfWord.removeAt(0)
         }

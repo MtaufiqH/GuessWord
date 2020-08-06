@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import app.taufiq.guessword.R
@@ -38,8 +39,15 @@ class GameFragment : Fragment() {
         binding.buttonGotIt.setOnClickListener { onCorrect() }
         binding.buttonEndGame.setOnClickListener { onEndGame() }
 
-        updateScore()
-        updateWord()
+        /** Setting up LiveData observation relationship **/
+        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+            binding.scoreText.text = newScore.toString()
+        })
+
+        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+            binding.wordText.text = newWord
+
+        })
 
         return binding.root
     }
@@ -48,14 +56,11 @@ class GameFragment : Fragment() {
     // method for buttons preset
     private fun onSkip() {
         viewModel.onSkip()
-        updateWord()
-        updateScore()
+
     }
 
     private fun onCorrect() {
         viewModel.onCorrect()
-        updateScore()
-        updateWord()
     }
 
 
@@ -73,13 +78,6 @@ class GameFragment : Fragment() {
     }
 
 
-    private fun updateScore() {
-        binding.scoreText.text = viewModel.score.value.toString()
-    }
-
-    private fun updateWord() {
-        binding.wordText.text = viewModel.word.value
-    }
 
 
 }

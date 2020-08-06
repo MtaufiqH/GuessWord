@@ -1,9 +1,10 @@
 package app.taufiq.guessword.screen.game
 
 import android.os.CountDownTimer
-import android.util.Log
+import android.text.format.DateUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 /**
@@ -29,15 +30,23 @@ class GameViewModel : ViewModel() {
     val _eventGameFinished: LiveData<Boolean>
         get() = eventGameFinished
 
+
+    /*
+    * Timer initialisation
+    * countdown 6s to 0s
+    * */
     // timer
     private val timer: CountDownTimer
-
 
     // countdown time
     private val currentTime = MutableLiveData<Long>()
     val _currentTime: LiveData<Long>
         get() = currentTime
 
+
+    val currentTimeString = Transformations.map(_currentTime) { time ->
+        DateUtils.formatElapsedTime(time)
+    }
 
 
     // the list of word - the front of the list is the next word  to guess
@@ -52,7 +61,7 @@ class GameViewModel : ViewModel() {
 
 
         // Creates a timer which triggers the end of the game when it finishes
-        timer = object: CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
+        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
             override fun onFinish() {
                 currentTime.value = DONE
                 onGameFinish()
@@ -60,7 +69,7 @@ class GameViewModel : ViewModel() {
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                currentTime.value = millisUntilFinished/ ONE_SECOND
+                currentTime.value = millisUntilFinished / ONE_SECOND
             }
         }
 

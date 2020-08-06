@@ -41,14 +41,23 @@ class GameFragment : Fragment() {
 
 
         /** Setting up LiveData observation relationship **/
+        //update score text
         viewModel._score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
 
+        // update data word
         viewModel._word.observe(viewLifecycleOwner, Observer { newWord ->
             binding.wordText.text = newWord
 
         })
+
+        // observer for the game Finish
+        viewModel._eventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> {hasFinished ->
+            if (hasFinished) onGameFinished()
+        })
+
+
 
         return binding.root
     }
@@ -75,6 +84,7 @@ class GameFragment : Fragment() {
             GameFragmentDirections.actionGameFragmentToScoreFragment()
         action.score = viewModel._score.value ?: 0
         NavHostFragment.findNavController(this).navigate(action)
+        viewModel.onGameFinishComplete()
     }
 
 

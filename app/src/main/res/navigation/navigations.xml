@@ -33,7 +33,7 @@
         android:label="ScoreFragment"
         tools:layout="@layout/fragment_score">
         <action
-            android:id="@+id/action_scoreFragment_to_gameFragment"
+            android:id="@+id/actionRestart"
             app:destination="@id/gameFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"

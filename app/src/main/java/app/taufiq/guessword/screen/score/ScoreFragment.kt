@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import app.taufiq.guessword.R
 import app.taufiq.guessword.databinding.FragmentScoreBinding
 
@@ -29,11 +31,29 @@ class ScoreFragment : Fragment() {
         )
 
 
+
         viewModelFactory =
             ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(requireArguments()).score)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ScoreViewModel::class.java)
 
-        binding.scoreId.text = viewModel.score.toString()
+        binding.playAgainButton.setOnClickListener {
+
+            viewModel.onPlayAgain()
+        }
+
+
+
+        viewModel._score.observe(viewLifecycleOwner, Observer { newScore ->
+            binding.scoreId.text = newScore.toString()
+        })
+
+
+        viewModel._eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
+            if (playAgain){
+                findNavController().navigate(ScoreFragmentDirections.actionRestart())
+                viewModel.onPlayAgainComplete()
+            }
+        })
 
         return binding.root
     }

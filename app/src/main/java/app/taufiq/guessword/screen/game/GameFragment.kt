@@ -59,27 +59,27 @@ class GameFragment : Fragment() {
     }
 
 
-    private fun onEndGame(){
+    private fun onEndGame() {
         onGameFinished()
     }
 
 
-    private fun onGameFinished(){
-        Toast.makeText(activity,"Game has just finished", Toast.LENGTH_SHORT).show()
+    private fun onGameFinished() {
+        Toast.makeText(activity, "Game has just finished", Toast.LENGTH_SHORT).show()
         val action =
             GameFragmentDirections.actionGameFragmentToScoreFragment()
-         action.score = viewModel.score
+        action.score = viewModel.score.value ?: 0
         NavHostFragment.findNavController(this).navigate(action)
     }
 
 
-private fun updateScore() {
-    binding.scoreText.text = viewModel.score.toString()
-}
+    private fun updateScore() {
+        binding.scoreText.text = viewModel.score.value.toString()
+    }
 
-private fun updateWord() {
-    binding.wordText.text = viewModel.word
-}
+    private fun updateWord() {
+        binding.wordText.text = viewModel.word.value
+    }
 
 
 }

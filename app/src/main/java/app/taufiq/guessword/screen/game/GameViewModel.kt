@@ -1,6 +1,7 @@
 package app.taufiq.guessword.screen.game
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 /**
@@ -10,10 +11,10 @@ import androidx.lifecycle.ViewModel
 class GameViewModel : ViewModel() {
 
     // current word
-    var word = ""
+    val word = MutableLiveData<String>()
 
     // current score
-    var score = 0
+    val score = MutableLiveData<Int>()
 
     // the list of word - the front of the list is the next word  to guess
     lateinit var listOfWord: MutableList<String>
@@ -22,18 +23,21 @@ class GameViewModel : ViewModel() {
         resetLists()
         nextWord()
 
+        word.value = ""
+        score.value = 0
+
     }
 
 
     // method for buttons preset
     fun onSkip() {
-        score--
+        score.value = (score.value)?.minus(1)
         nextWord()
 
     }
 
     fun onCorrect() {
-        score++
+        score.value = (score.value)?.plus(1)
         nextWord()
     }
 
@@ -78,7 +82,7 @@ class GameViewModel : ViewModel() {
     private fun nextWord() {
         if (!listOfWord.isEmpty()) {
             // select and remove a word from the list
-            word = listOfWord.removeAt(0)
+            word.value = listOfWord.removeAt(0)
         }
     }
 }

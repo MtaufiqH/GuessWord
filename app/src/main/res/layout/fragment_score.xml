@@ -42,6 +42,7 @@
             android:textColor="@android:color/black"
             android:textSize="34sp"
             tools:text="40"
+            android:text="@{scoreViewModel._score.toString()}"
             app:layout_constraintBottom_toTopOf="@+id/playAgainButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

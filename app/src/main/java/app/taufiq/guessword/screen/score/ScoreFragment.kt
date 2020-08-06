@@ -42,14 +42,18 @@ class ScoreFragment : Fragment() {
         binding.scoreViewModel = viewModel
 
 
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel._score.observe(viewLifecycleOwner, Observer { newScore ->
+
+        /*viewModel._score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreId.text = newScore.toString()
         })
-
+*/
 
         viewModel._eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
-            if (playAgain){
+            if (playAgain) {
                 findNavController().navigate(ScoreFragmentDirections.actionRestart())
                 viewModel.onPlayAgainComplete()
             }
